@@ -56,7 +56,13 @@ CANAL_CONSEJO=id_del_canal
 
         Leer archivo 'Manual_Oficial.md'
 
-    -- Crear miembros_consejo.json, historial_consejo.json, firmas.json, actas.json
+    -- Crear archivos con '[]' dentro:
+
+        miembros_consejo.json 
+        historial_consejo.json
+        firmas.json
+        actas.json
+
     -- A futuro estara creación automatica.
 
     -- 'historial_hash', en caso de usar para firmas.
