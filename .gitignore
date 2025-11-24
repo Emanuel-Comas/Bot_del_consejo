@@ -1,0 +1,7 @@
+node_modules
+.env
+actas.json
+firmas.json
+historial_consejo.json
+miembros_consejo.json
+historial_hash.txt
