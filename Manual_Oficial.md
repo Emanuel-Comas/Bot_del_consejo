@@ -97,7 +97,9 @@ Una vez finalizada la etapa automática, se mostrará un mensaje donde el Consej
 
 Un miembro habilitado del Consejo puede:
 
-    -- Importante: Estos comandos fuieron eliminados, ya que no dan transparencia en las votaciónes.
+    -- Importante: Estos comandos fueron eliminados, ya que no dan transparencia en las votaciónes.
+
+        ID del commit donde se ejecuto esta orden.: cfd3d6cfa872c532772630c1692649c3b00430e2
 
     🟩 Aprobar:
 
@@ -275,9 +277,15 @@ El sistema emitirá la Resolución Final, archivada en los registros del Consejo
 
         Qué hace:
 
-            Cambia el estado de la acta a “Pendiente”.
+            La pasa de Aprobado → Pendiente
 
-            Muestra el ID del solicitante en formato legible de Discord.
+            O de Rechazado → Pendiente
+
+            Resetea firmas
+
+            Limpia resolución final
+
+            Permite iniciar un nuevo proceso de votación
 
 
     Editar peticiones (antes de resolución):

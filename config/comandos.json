@@ -8,14 +8,14 @@
   },
   {
     "nombre": "!aprobar",
-    "descripcion": "Aprueba manualmente un acta específica.",
+    "descripcion": "Aprueba manualmente un acta específica. 'eliminado'",
     "jerarquia": 1,
     "ejemplo": "!aprobar ACT-1234-X",
     "categoria": "Administración"
   },
   {
     "nombre": "!rechazar",
-    "descripcion": "Rechaza manualmente un acta específica.",
+    "descripcion": "Rechaza manualmente un acta específica. 'eliminado'",
     "jerarquia": 1,
     "ejemplo": "!rechazar ACT-1234-X",
     "categoria": "Administración"
@@ -25,27 +25,6 @@
     "descripcion": "Muestra todas las actas con paginación.",
     "jerarquia": 2,
     "ejemplo": "!actas",
-    "categoria": "Actas"
-  },
-  {
-    "nombre": "!actas pendientes",
-    "descripcion": "Filtra las actas pendientes.",
-    "jerarquia": 1,
-    "ejemplo": "!actas pendientes",
-    "categoria": "Actas"
-  },
-  {
-    "nombre": "!actas aprobadas",
-    "descripcion": "Filtra las actas aprobadas.",
-    "jerarquia": 1,
-    "ejemplo": "!actas aprobadas",
-    "categoria": "Actas"
-  },
-  {
-    "nombre": "!actas rechazadas",
-    "descripcion": "Filtra las actas rechazadas.",
-    "jerarquia": 1,
-    "ejemplo": "!actas rechazadas",
     "categoria": "Actas"
   },
   {
