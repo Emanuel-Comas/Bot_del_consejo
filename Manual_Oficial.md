@@ -97,6 +97,8 @@ Una vez finalizada la etapa automática, se mostrará un mensaje donde el Consej
 
 Un miembro habilitado del Consejo puede:
 
+    -- Importante: Estos comandos fuieron eliminados, ya que no dan transparencia en las votaciónes.
+
     🟩 Aprobar:
 
         !aprobar <acta>
@@ -527,6 +529,13 @@ El sistema emitirá la Resolución Final, archivada en los registros del Consejo
         <ID_del_usuario> es el Discord ID de la persona que quieres invitar.
 
         Solo se permite que lo haga alguien con permiso de administrador.
+
+
+## Ayuda sobre comandos.
+
+    Comando !help
+
+        
 
 ## CÓDIGO DE ÉTICA DEL CONSEJO
 

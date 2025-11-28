@@ -2,6 +2,7 @@
 const { registrarHistorial } = require("./historial/historial");
 const historialComandos = require("./historial/comandosHistorial");
 const { obtenerIcono, iconosJerarquia } = require("./roles/iconos_roles.js");
+const comandos = require("./config/comandos.json");
 
 // Automatizaciones
 const cierresAutomaticos = require("./automatizaciones/cierresAutomaticos");
@@ -82,8 +83,10 @@ async function iniciarVotacion(msg, acta, peticion, canal) {
 
 
   // Al iniciar la votación, guardá quién la disparó
-  const autorCierre = msg.author.id;   // guardás el ID del autor
-  const canalCierre = msg.channel.id;  // si necesitás el canal también
+  // Aqui esta la logica de la votación.
+  const autorCierre = msg.author.id;   // guarda el ID del autor
+  // En caso de necesitar el canal.
+  const canalCierre = msg.channel.id;  
   setTimeout(async () => {
     let mensajeActualizado;
 
@@ -105,7 +108,7 @@ async function iniciarVotacion(msg, acta, peticion, canal) {
       return; // cortar proceso
     }
 
-    // === si el mensaje existe seguimos normalmente ===
+    // === si el mensaje existe sigue normalmente ===
 
     const reaccionAprobar = mensajeActualizado.reactions.cache.get("✅");
     const reaccionRechazar = mensajeActualizado.reactions.cache.get("❌");
@@ -158,7 +161,7 @@ async function iniciarVotacion(msg, acta, peticion, canal) {
     registrarHistorial({
       tipo: resultado.toLowerCase(),
       descripcion: `Acta ${acta} ${resultado.toLowerCase()} por votación.`,
-      autor: autorCierre,              // usamos la variable guardada
+      autor: autorCierre,              // usa la variable guardada
       afectado: registro.solicitante,
       acta
     });
@@ -288,142 +291,6 @@ client.on("messageCreate", async (msg) => {
   guardarActas(actas);
 
   iniciarVotacion(msg, acta, peticion || "No detallada", msg.channel);
-});
-
-// Comando para aprobar
-client.on("messageCreate", async (msg) => {
-  // Si el mensaje no viene del canal autorizado, ignóralo y no hagas nada.
-  if (msg.channel.id !== canalAutorizado) return; // <-- Filtro de canal
-  if (!msg.content.startsWith("!aprobar")) return;
-
-  // Solo Admin
-  if (!msg.member.permissions.has(PermissionsBitField.Flags.Administrator)) {
-    return msg.reply("⚠️ Solo un **Administrador del Consejo** puede aprobar solicitudes.");
-  }
-
-  const acta = msg.content.split(" ")[1];
-  if (!acta) return msg.reply("Debe especificar el número de acta.");
-
-  // Actualizar registro
-  let actas = cargarActas();
-  const registro = actas.find(a => a.acta === acta);
-
-  if (!registro) return msg.reply("No existe un expediente con ese número de acta.");
-  registro.estado = "Aprobado";
-  guardarActas(actas);
-
-  // Registrar en historial de auditoría
-  registrarHistorial({
-    tipo: "aprobación",
-    descripcion: `Acta ${acta} aprobada manualmente.`,
-    autor: msg.author.id,
-    afectado: registro.solicitante,
-    acta
-  });
-
-
-  // Alertas automáticas a solicitantes
-  // Se activa dentro de aprobado
-  try {
-    const usuario = await client.users.fetch(registro.solicitante);
-    await usuario.send(`📘 Tu acta **${acta}** ha sido **${registro.estado.toLowerCase()}** — Resolución oficial del Consejo.`);
-  } catch {
-    await msg.channel.send(`<@${registro.solicitante}>, tu acta **${acta}** ha sido **${registro.estado.toLowerCase()}**`);
-  }
-
-  const fechaResolucion = new Date().toLocaleString("es-ES", {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-  registro.fechaResolucion = new Date().toISOString();
-  guardarActas(actas);
-
-
-  // Respuesta
-  const embed = new EmbedBuilder()
-    .setTitle("📘 Consejo de Hombres — Resolución Final")
-    .setDescription(
-      `**Acta:** \`${acta}\`\n\n` +
-      `📗 **RESULTADO:** Aprobado.\n` +
-      `La solicitud cumple satisfactoriamente con el Código Institucional.\n` +
-      `🗓 Fecha de resolución: ${fechaResolucion}\n\n` +
-      `— Decisión respaldada por la Secretaría General del Consejo —`
-    )
-    .setColor("Green")
-    .setFooter({ text: "Resolución registrada en los Archivos Centrales." });
-
-  msg.reply({ embeds: [embed] });
-});
-
-
-// Comando para rechazar
-client.on("messageCreate", async (msg) => {
-  // Si el mensaje no viene del canal autorizado, ignóralo y no hagas nada.
-  if (msg.channel.id !== canalAutorizado) return; // <-- Filtro de canal
-  if (!msg.content.startsWith("!rechazar")) return;
-
-  // Solo Admin
-  if (!msg.member.permissions.has(PermissionsBitField.Flags.Administrator)) {
-    return msg.reply("⚠️ Solo un **Administrador del Consejo** puede rechazar solicitudes.");
-  }
-
-  const acta = msg.content.split(" ")[1];
-  if (!acta) return msg.reply("Debe especificar el número de acta.");
-
-  // Actualizar registro  
-  let actas = cargarActas();
-  const registro = actas.find(a => a.acta === acta);
-
-  if (!registro) return msg.reply("No existe un expediente con ese número de acta.");
-  registro.estado = "Rechazado";
-  guardarActas(actas);
-
-  registrarHistorial({
-    tipo: "rechazo",
-    descripcion: `Acta ${acta} rechazada manualmente.`,
-    autor: msg.author.id,
-    afectado: registro.solicitante,
-    acta
-  });
-
-  // Alertas automáticas a solicitantes
-  // Se activa dentro de aprobar/rechazar
-  try {
-    const usuario = await client.users.fetch(registro.solicitante);
-    await usuario.send(`📘 La resolución de tu acta **${acta}** es **${registro.estado.toLowerCase()}** — Resolución oficial del Consejo de Hombres.`);
-  } catch {
-    await msg.channel.send(`<@${registro.solicitante}>, tu acta **${acta}** ha sido **${registro.estado.toLowerCase()}**`);
-  }
-
-  const fechaResolucion = new Date().toLocaleString("es-ES", {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-  registro.fechaResolucion = new Date().toISOString();
-  guardarActas(actas);
-
-
-  const embed = new EmbedBuilder()
-    .setTitle("📘 Consejo de Hombres — Resolución Final")
-    .setDescription(
-      `**Acta:** \`${acta}\`\n\n` +
-      `📕 **RESULTADO:** Rechazado.\n` +
-      `La petición no cumple con los estándares mínimos requeridos.\n` +
-      `🗓 Fecha de resolución: ${fechaResolucion}\n\n` +
-      `— Decisión respaldada por la Secretaría General del Consejo —`
-    )
-    .setColor("Red")
-    .setFooter({ text: "Resolución registrada en los Archivos Centrales." });
-
-  msg.reply({ embeds: [embed] });
 });
 
 
@@ -1420,4 +1287,129 @@ client.once("ready", () => {
   console.log("Consejo de Hombres — Operativo.");
 });
 
+
+// ----------------------------------------
+// Comando !help — con paginación
+// ----------------------------------------
+client.on("messageCreate", async (msg) => {
+  if (!msg.content.startsWith("!help")) return;
+
+  const miembros = cargarMiembros();
+  const miembro = miembros.find(m => m.id === msg.author.id);
+
+  // Si no está registrado → jerarquía 5
+  const jerarquiaUser = miembro ? miembro.jerarquia : 5;
+
+  // Filtrar comandos permitidos
+  const lista = comandos.filter(c => jerarquiaUser <= c.jerarquia);
+
+  if (lista.length === 0)
+    return msg.reply("No tienes comandos disponibles según tu jerarquía.");
+
+  // 🔢 Configuración de paginado
+  const pageSize = 3;
+  const totalPages = Math.ceil(lista.length / pageSize);
+  let currentPage = 1;
+
+  // 🛠️ Función para crear embed según la página
+  const generarEmbed = (pagina) => {
+    const inicio = (pagina - 1) * pageSize;
+    const fin = inicio + pageSize;
+    const comandosPagina = lista.slice(inicio, fin);
+
+    const embed = new EmbedBuilder()
+      .setTitle(`📘 Ayuda del Consejo — Página ${pagina}/${totalPages}`)
+      .setColor("#0A1A2F")
+      .setDescription(
+        `Tu jerarquía: ${obtenerIcono(jerarquiaUser)} **${jerarquiaUser}**\n\n` +
+        `Solo ves comandos que tu rango permite.`
+      )
+      .setFooter({ text: "Sistema Administrativo del Consejo" });
+
+    comandosPagina.forEach(cmd => {
+      embed.addFields({
+        name: `${obtenerIcono(cmd.jerarquia)} ${cmd.nombre}`,
+        value:
+          `📄 **Descripción:** ${cmd.descripcion}\n` +
+          `🔐 **Jerarquía requerida:** ${obtenerIcono(cmd.jerarquia)} ${cmd.jerarquia}\n` +
+          `📝 **Ejemplo:** \`${cmd.ejemplo}\``,
+        inline: false
+      });
+    });
+
+    return embed;
+  };
+
+  // 🟦 Botones
+  const botones = (pagina) =>
+    new ActionRowBuilder().addComponents(
+      new ButtonBuilder()
+        .setCustomId("help_prev")
+        .setLabel("◀️ Anterior")
+        .setStyle(ButtonStyle.Primary)
+        .setDisabled(pagina === 1),
+      new ButtonBuilder()
+        .setCustomId("help_next")
+        .setLabel("Siguiente ▶️")
+        .setStyle(ButtonStyle.Primary)
+        .setDisabled(pagina === totalPages)
+    );
+
+  // Enviar primera página
+  const mensaje = await msg.reply({
+    embeds: [generarEmbed(currentPage)],
+    components: [botones(currentPage)]
+  });
+
+  // Colector
+  const collector = mensaje.createMessageComponentCollector({
+    time: 120000 // 2 minutos
+  });
+
+  collector.on("collect", async (i) => {
+    try {
+      if (i.user.id !== msg.author.id)
+        return i.reply({ content: "⛔ Solo quien usó !help puede cambiar página.", ephemeral: true });
+
+      if (i.customId === "help_prev" && currentPage > 1) currentPage--;
+      if (i.customId === "help_next" && currentPage < totalPages) currentPage++;
+
+      await i.update({
+        embeds: [generarEmbed(currentPage)],
+        components: [botones(currentPage)]
+      });
+
+    } catch (err) {
+      console.log("⚠️ Error paginando help:", err);
+    }
+  });
+
+  collector.on("end", async () => {
+    try {
+      await mensaje.edit({
+        components: [
+          new ActionRowBuilder().addComponents(
+            new ButtonBuilder()
+              .setCustomId("help_prev")
+              .setLabel("◀️ Anterior")
+              .setStyle(ButtonStyle.Primary)
+              .setDisabled(true),
+            new ButtonBuilder()
+              .setCustomId("help_next")
+              .setLabel("Siguiente ▶️")
+              .setStyle(ButtonStyle.Primary)
+              .setDisabled(true)
+          )
+        ]
+      });
+    } catch {
+      // Simple mensaje para cuando se cierra lo que visualiza el comando !help.
+      console.log("⚠️ El mensaje de !help fue borrado antes de desactivar botones.");
+    }
+  });
+});
+
+
+
+//  Inicia el bot.
 client.login(process.env.TOKEN);

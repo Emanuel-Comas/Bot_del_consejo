@@ -1,0 +1,163 @@
+[
+  {
+    "nombre": "!consejo",
+    "descripcion": "Inicia una solicitud formal al Consejo de Hombres.",
+    "jerarquia": 5,
+    "ejemplo": "!consejo deseo solicitar revisión",
+    "categoria": "Actas"
+  },
+  {
+    "nombre": "!aprobar",
+    "descripcion": "Aprueba manualmente un acta específica.",
+    "jerarquia": 1,
+    "ejemplo": "!aprobar ACT-1234-X",
+    "categoria": "Administración"
+  },
+  {
+    "nombre": "!rechazar",
+    "descripcion": "Rechaza manualmente un acta específica.",
+    "jerarquia": 1,
+    "ejemplo": "!rechazar ACT-1234-X",
+    "categoria": "Administración"
+  },
+  {
+    "nombre": "!actas",
+    "descripcion": "Muestra todas las actas con paginación.",
+    "jerarquia": 2,
+    "ejemplo": "!actas",
+    "categoria": "Actas"
+  },
+  {
+    "nombre": "!actas pendientes",
+    "descripcion": "Filtra las actas pendientes.",
+    "jerarquia": 1,
+    "ejemplo": "!actas pendientes",
+    "categoria": "Actas"
+  },
+  {
+    "nombre": "!actas aprobadas",
+    "descripcion": "Filtra las actas aprobadas.",
+    "jerarquia": 1,
+    "ejemplo": "!actas aprobadas",
+    "categoria": "Actas"
+  },
+  {
+    "nombre": "!actas rechazadas",
+    "descripcion": "Filtra las actas rechazadas.",
+    "jerarquia": 1,
+    "ejemplo": "!actas rechazadas",
+    "categoria": "Actas"
+  },
+  {
+    "nombre": "!acta",
+    "descripcion": "Busca una acta específica por su código.",
+    "jerarquia": 2,
+    "ejemplo": "!acta ACT-1234-X",
+    "categoria": "Actas"
+  },
+  {
+    "nombre": "!exportar",
+    "descripcion": "Exporta todas las actas a un archivo CSV.",
+    "jerarquia": 1,
+    "ejemplo": "!exportar",
+    "categoria": "Actas"
+  },
+  {
+    "nombre": "!resumen",
+    "descripcion": "Muestra un resumen de las actas generadas en los últimos 7 días.",
+    "jerarquia": 1,
+    "ejemplo": "!resumen",
+    "categoria": "Actas"
+  },
+  {
+    "nombre": "!reabrir",
+    "descripcion": "Reabre un acta y la devuelve al estado Pendiente.",
+    "jerarquia": 1,
+    "ejemplo": "!reabrir ACT-1234-X",
+    "categoria": "Actas"
+  },
+  {
+    "nombre": "!editar",
+    "descripcion": "Edita la petición de un acta y reinicia la votación.",
+    "jerarquia": 1,
+    "ejemplo": "!editar ACT-1234-X nuevo texto",
+    "categoria": "Actas"
+  },
+  {
+    "nombre": "!borrar",
+    "descripcion": "Elimina un acta permanentemente.",
+    "jerarquia": 1,
+    "ejemplo": "!borrar ACT-1234-X",
+    "categoria": "Actas"
+  },
+  {
+    "nombre": "!solicitarPresencia",
+    "descripcion": "Invita a un usuario a unirse al Consejo.",
+    "jerarquia": 1,
+    "ejemplo": "!solicitarPresencia @usuario",
+    "categoria": "Miembros"
+  },
+  {
+    "nombre": "!miembros",
+    "descripcion": "Lista todos los miembros registrados del Consejo.",
+    "jerarquia": 1,
+    "ejemplo": "!miembros",
+    "categoria": "Miembros"
+  },
+  {
+    "nombre": "!ascenso",
+    "descripcion": "Asciende a un miembro a una jerarquía superior.",
+    "jerarquia": 1,
+    "ejemplo": "!ascenso @usuario",
+    "categoria": "Jerarquías"
+  },
+  {
+    "nombre": "!descenso",
+    "descripcion": "Desciende a un miembro a una jerarquía inferior.",
+    "jerarquia": 1,
+    "ejemplo": "!descenso @usuario",
+    "categoria": "Jerarquías"
+  },
+  {
+    "nombre": "!historial",
+    "descripcion": "Muestra los últimos 10 registros del historial del Consejo.",
+    "jerarquia": 2,
+    "ejemplo": "!historial",
+    "categoria": "Historial"
+  },
+  {
+    "nombre": "!firmar",
+    "descripcion": "Firma un acta específica.",
+    "jerarquia": 2,
+    "ejemplo": "!firmar ACT-1234-X",
+    "categoria": "Firmas"
+  },
+  {
+    "nombre": "!verfirmas",
+    "descripcion": "Muestra todo el libro de firmas.",
+    "jerarquia": 2,
+    "ejemplo": "!verfirmas",
+    "categoria": "Firmas"
+  },
+  {
+    "nombre": "!verfirma",
+    "descripcion": "Muestra las firmas correspondientes a un acta específica.",
+    "jerarquia": 2,
+    "ejemplo": "!verfirma ACT-1234-X",
+    "categoria": "Firmas"
+  },
+  {
+    "nombre": "!firmauser",
+    "descripcion": "Muestra todas las actas firmadas por un usuario.",
+    "jerarquia": 2,
+    "ejemplo": "!firmauser @usuario",
+    "categoria": "Firmas"
+  },
+  {
+    "nombre": "!help",
+    "descripcion": "Muestra el menú de ayuda personalizado según tu jerarquía.",
+    "jerarquia": 5,
+    "ejemplo": "!help",
+    "categoria": "Sistema"
+  }
+]
