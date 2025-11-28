@@ -164,7 +164,7 @@ El sistema emitirá la Resolución Final, archivada en los registros del Consejo
 
 
 
-    Diagrama de flujo del consej ode hombres:
+    Diagrama de flujo del consejo:
 
         ┌──────────────────────────────┐
         │ Usuario envía solicitud      │
@@ -192,16 +192,17 @@ El sistema emitirá la Resolución Final, archivada en los registros del Consejo
         │ - Acta                       │
         │ - Petición                   │
         │ - Estado: Pendiente          │
-        │ Usuario ve opciones:         │
-        │ !aprobar <acta>              │
-        │ !rechazar <acta>             │
+        │ Consejo ve opciones:         │
+        │ boton aprobar <acta>         │
+        │ boton rechazar <acta>        │
         └─────────────┬────────────────┘
                     │
             ┌───────┴────────┐
             ▼                ▼
         ┌───────────────┐  ┌───────────────┐
-        │ !aprobar      │  │ !rechazar     │
-        │ Solo admin    │  │ Solo admin    │
+        │ aprobar       │  │ rechazar      │
+        │ Solo rol 1,2, │  │ Solo rol 1,2, │
+        │ 3,4           │  │ 3,4           │
         │ Acta marcada  │  │ Acta marcada  │
         │ como Aprobada │  │ como Rechazada│
         │ Guardada en   │  │ Guardada en   │
@@ -209,10 +210,10 @@ El sistema emitirá la Resolución Final, archivada en los registros del Consejo
         └───────┬───────┘  └───────┬───────┘
                 │                  │
                 └─────────┬────────┘
-                        ▼
+                          ▼
                 ┌───────────────────────┐
                 │ Comando !actas        │
-                │ Solo administradores  │
+                │ Solo rol 1            │
                 │ Muestra todas las     │
                 │ actas con:            │
                 │ - Acta                │

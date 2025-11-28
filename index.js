@@ -86,7 +86,7 @@ async function iniciarVotacion(msg, acta, peticion, canal) {
   // Aqui esta la logica de la votación.
   const autorCierre = msg.author.id;   // guarda el ID del autor
   // En caso de necesitar el canal.
-  const canalCierre = msg.channel.id;  
+  const canalCierre = msg.channel.id;
   setTimeout(async () => {
     let mensajeActualizado;
 
@@ -324,6 +324,29 @@ client.on("messageCreate", async (msg) => {
       .setFooter({ text: "Consejo de Hombres — Archivos Centrales" });
 
     actasPagina.forEach(a => {
+      let fechaResolucion =
+        a.fechaResolucion ||
+        a.fecha_resolucion ||
+        a.fechaResolución;
+
+      // Texto por defecto
+      let textoResolucion = "En proceso";
+
+      // Si ya está aprobada o rechazada → mostrar estado + fecha
+      if (a.estado === "Aprobado" || a.estado === "Rechazado") {
+        const fechaFormateada = fechaResolucion
+          ? new Date(fechaResolucion).toLocaleString("es-ES", {
+            weekday: "short",
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit"
+          })
+          : "Acta creada antes del sistema de registro de fecha";
+
+        textoResolucion = `${a.estado} — ${fechaFormateada}`;
+      }
       embed.addFields({
         name: `📘 ${a.acta} — ${a.estado}`,
         value:
@@ -337,17 +360,7 @@ client.on("messageCreate", async (msg) => {
             hour: "2-digit",
             minute: "2-digit"
           })}\n` +
-          `🗓 Resolución: ${a.fechaResolucion
-            ? new Date(a.fechaResolucion).toLocaleString("es-ES", {
-              weekday: "short",
-              year: "numeric",
-              month: "short",
-              day: "numeric",
-              hour: "2-digit",
-              minute: "2-digit"
-            })
-            : "Pendiente"
-          }\n` +
+          `🗓 Resolución: ${textoResolucion}\n` +
           `✍️ Firmas: ${a.firmas && a.firmas.length > 0
             ? a.firmas.map(id => `<@${id}>`).join(", ")
             : "Ninguna"

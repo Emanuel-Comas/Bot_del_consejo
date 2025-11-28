@@ -26,9 +26,10 @@ Dentro de la carpeta principal del proyecto, crea un archivo llamado:
 
 Agregá estas líneas:
 
-```env
-TOKEN=tu_token_del_bot
-CANAL_CONSEJO=id_del_canal
+.env:
+
+    TOKEN=tu_token_del_bot
+    CANAL_CONSEJO=id_del_canal
 
 
     Explicación:
@@ -67,3 +68,45 @@ CANAL_CONSEJO=id_del_canal
 
     -- 'historial_hash', en caso de usar para firmas.
 
+    
+
+## 🏛️ Jerarquías del Consejo — Permisos Oficiales
+
+    📌 Tabla de jerarquías y permisos
+
+    | Jerarquía | Título   |   Permisos  
+
+    | **1**️⃣    | **Gran Canciller**     | • Votar<br>• Ver actas<br>• Ver historial<br>• Firmar<br>• Ver firmas<br>• Ascender/descender miembros
+
+    | **2**️⃣    | **Maestro Votante**    | • Votar<br>• Ver actas<br>• Ver historial<br>• Firmar<br>• Ver firmas
+
+    | **3**️⃣    | **Votante Novato**     | • Votar                                    
+
+    | **4**️⃣    | **Aprendiz Observador** | • Votar         
+
+    | **5**️⃣    | **Espectador**         | • Solo ver 
+
+---
+
+    🗳️ ¿Quiénes pueden votar?
+
+    | Jerarquía | Título               | Puede votar |
+    |----------:|----------------------|-------------|
+    | **1**️⃣    | Gran Canciller       | ✔ Sí        |
+    | **2**️⃣    | Maestro Votante      | ✔ Sí        |
+    | **3**️⃣    | Votante Novato       | ✔ Sí        |
+    | **4**️⃣    | Aprendiz Observador  | ✔ Sí        |
+    | **5**️⃣    | Espectador           | ❌ No        |
+
+    ---
+
+    📘 Resumen rápido
+
+    - **Firmar actas:** solo jerarquías **1 y 2**
+    - **Ver historial:** solo jerarquías **1 y 2**
+    - **Ver firmas:** solo jerarquías **1 y 2**
+    - **Ver actas:** solo jerarquías **1 y 2**
+    - **Votar:** jerarquías **1, 2, 3 y 4**
+    - **Ascensos / descensos:** solo jerarquía **1**
+    - **Jerarquía mínima (5):** acceso limitado y sin interacción administrativa
+---
